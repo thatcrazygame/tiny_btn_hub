@@ -1,0 +1,21 @@
+<h1 class="mat-display-3">Device Types</h1>
+<div class="list-grid">
+  <mat-card *ngFor="let devicetype of deviceTypeList" class="mat-elevation-z5">
+    <mat-card-title>{{devicetype.name}}</mat-card-title>
+    <mat-divider></mat-divider>
+    <br />
+    <mat-card-content>
+      <br />
+      <button mat-raised-button color="accent">
+        Edit
+      </button>
+      <button mat-button color="warn" *ngIf="isAdmin()" (click)="delete(devicetype.id)">
+        Delete
+      </button>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+<button mat-fab color="primary" *ngIf="authenticated" class="new-btn" (click)="openDialog()">
+  <i class="material-icons">note_add</i>
+</button>

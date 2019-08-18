@@ -1,0 +1,20 @@
+<mat-card>
+  <h2>New Btn</h2>
+    <mat-form-field class="full-width">
+        <input matInput
+            placeholder="ID"
+            (keyup)="updateID($event)">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <input matInput
+            placeholder="Name"
+            (keyup)="updateName($event)">
+    </mat-form-field>
+
+    <button mat-raised-button
+            color="primary"
+            (click)="saveBtn()">
+      Save Btn
+    </button>
+</mat-card>

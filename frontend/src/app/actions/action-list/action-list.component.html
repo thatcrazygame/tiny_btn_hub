@@ -1,0 +1,20 @@
+<h1 class="mat-display-3">Actions</h1>
+<div class="list-grid">
+  <mat-card *ngFor="let action of actionList" class="mat-elevation-z5">
+    <mat-card-title>{{action.name}}</mat-card-title>
+    <mat-divider></mat-divider>
+    <br />
+    <mat-card-content>
+      <button mat-raised-button color="accent">
+        Edit
+      </button>
+      <button mat-button color="warn" *ngIf="isAdmin()" (click)="delete(action.id)">
+        Delete
+      </button>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+<button mat-fab color="primary" *ngIf="authenticated" class="new-btn" (click)="openDialog()">
+  <i class="material-icons">note_add</i>
+</button>

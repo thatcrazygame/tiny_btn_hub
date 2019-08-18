@@ -1,0 +1,94 @@
+<h1 class="mat-display-3">Commands</h1>
+<div class="list-grid">
+  <div *ngFor="let command of commandList">
+
+    <mat-card class="mat-elevation-z5">
+      <mat-card-title>{{command.name}}</mat-card-title>
+      <mat-divider></mat-divider>
+      <br />
+      <mat-card-content>
+        <mat-accordion class="command-args">
+          <mat-expansion-panel *ngFor="let arg of command.args; let i = index">
+            <mat-expansion-panel-header>
+              <mat-panel-title *ngIf="arg.id; else newTitle">
+                {{arg.name}} < {{arg.type}} >
+                  <span class="spacer"></span>
+                  <mat-checkbox [checked]="arg.required" [labelPosition]="before" [disabled]="true">
+                    required
+                  </mat-checkbox>
+              </mat-panel-title>
+              <ng-template #newTitle>
+                New
+              </ng-template>
+            </mat-expansion-panel-header>
+
+            <div *ngIf="argForms[command.id][i]">
+              <div class="argForm" [formGroup]="argForms[command.id][i]">
+
+                <input type="hidden" formControlName="command_id" />
+                <input type="hidden" formControlName="id" />
+
+                <mat-form-field>
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="name" formControlName="name">
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>Type</mat-label>
+                  <mat-select formControlName="type">
+                    <mat-option value="string">string</mat-option>
+                    <mat-option value="integer">integer</mat-option>
+                    <mat-option value="float">float</mat-option>
+                    <mat-option value="boolean">boolean</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br />
+
+                <mat-checkbox formControlName="required">Required</mat-checkbox>
+
+              </div>
+            </div>
+            <mat-action-row *ngIf="authenticated">
+              <div *ngIf="arg.id; else newArg">
+                <button mat-raised-button color="primary">
+                  Update
+                </button>
+                <button mat-button color="warn" (click)="deleteArg(arg.id)">
+                  Delete
+                </button>
+
+              </div>
+
+              <ng-template #newArg>
+                <div>
+                  <button mat-raised-button color="primary" (click)="saveNewArg(command.id, i)">
+                    Save
+                  </button>
+                  <button mat-button color="warn" (click)="cancelNewArg(command.id, i)">
+                    Cancel
+                  </button>
+                </div>
+              </ng-template>
+            </mat-action-row>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent">
+          Edit
+        </button>&nbsp;
+        <button mat-raised-button color="accent" (click)="newArg(command.id)">
+          Add Arg
+        </button>&nbsp;
+        <button mat-button color="warn" *ngIf="isAdmin()" (click)="delete(command.id)">
+          Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+</div>
+<button mat-fab color="primary" *ngIf="authenticated" class="new-btn" (click)="openDialog()">
+  <i class="material-icons">note_add</i>
+</button>

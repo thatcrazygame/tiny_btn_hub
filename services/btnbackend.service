@@ -1,0 +1,14 @@
+[Unit]
+Description=Btn Backend API Service
+After=network.target
+
+[Service]
+ExecStart=/home/pi/tiny_btn/tiny_btn_hub/backend/bootstrap.sh
+WorkingDirectory=/home/pi/tiny_btn/tiny_btn_hub/backend
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

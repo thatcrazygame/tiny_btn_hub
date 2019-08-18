@@ -1,0 +1,36 @@
+<mat-card class="mat-elevation-z5">
+  <mat-card-title class="flex-title">
+    <span>{{group.name}}</span>
+    <span class="flex-spacer"></span>
+    <mat-chip-list aria-label="">
+      <mat-chip color="primary" selected>
+          Devices: {{group.devices.length}}
+      </mat-chip>
+    </mat-chip-list>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <br />
+
+  <mat-card-content [formGroup]="groupForm">
+    <mat-form-field>
+      <mat-label>Devices</mat-label>
+      <mat-select formControlName="devices" multiple>
+        <mat-option *ngFor="let device of deviceList" [value]="device.id">
+          {{device.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="isAdmin()">
+    <button mat-raised-button color="accent" (click)="updateGroupDevices()">
+      Update Devices
+    </button>
+    <button mat-button color="warn" (click)="deleteGroup()">
+      Delete
+    </button>
+  </mat-card-actions>
+
+</mat-card>

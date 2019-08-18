@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>New Device</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+    <mat-form-field>
+        <mat-label>Device Name</mat-label>
+        <input matInput placeholder="Device Name" formControlName="name">
+    </mat-form-field>
+
+    <br />
+    <mat-divider></mat-divider>
+
+    <mat-form-field>
+        <mat-label>Device Type</mat-label>
+        <mat-select [value]="selectedDeviceType" formControlName="device_type_id">
+            <mat-option *ngFor="let device_type of deviceTypeList"
+            [value]="device_type.id">
+                {{device_type.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+</mat-dialog-actions>

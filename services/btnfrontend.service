@@ -1,0 +1,15 @@
+[Unit]
+Description=Btn Backend API Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/ng serve --host 0.0.0.0
+WorkingDirectory=/home/pi/tiny_btn/tiny_btn_hub/frontend
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+

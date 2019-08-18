@@ -1,0 +1,71 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{action.name}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div *ngIf="btnActionForm">
+    <div class="btnActionForm" [formGroup]="btnActionForm">
+
+      <mat-form-field>
+        <mat-label>Group</mat-label>
+        <mat-select formControlName="group_id">
+          <mat-option *ngFor="let group of groupList" [value]="group.id">
+            {{group.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+
+      <mat-form-field>
+        <mat-label>Command</mat-label>
+        <mat-select formControlName="command_id" (selectionChange)="commandSelectChange($event)">
+          <mat-option *ngFor="let command of commandList" [value]="command.id">
+            {{command.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-container *ngIf="btnActionForm.get('command_id').value as command_id">
+        <ng-container *ngIf="argForm">
+
+          <mat-list *ngIf="getCommand(command_id) as command" aria-label="" [formGroup]="argForm">
+            <mat-list-item *ngFor="let arg of command.args">
+              <ng-container *ngIf="arg.required">*</ng-container>{{arg.name}}:&nbsp;
+
+              <ng-container *ngIf="arg.type === 'boolean'; else argInput">
+                <mat-checkbox formControlName={{arg.id.toString()}}></mat-checkbox>
+              </ng-container>
+
+              <ng-template #argInput>
+                <input matInput formControlName={{arg.id.toString()}} placeholder="value" />
+              </ng-template>
+            </mat-list-item>
+
+          </mat-list>
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+  </div>
+  <mat-action-row *ngIf="authenticated">
+    <div *ngIf="btnAction as ba; else noAction">
+      <button mat-raised-button color="primary" (click)="updateBtnAction()">
+        Update
+      </button>
+      <button mat-button color="warn" (click)="deleteBtnAction()">
+        Delete
+      </button>
+    </div>
+
+    <ng-template #noAction>
+      <div>
+        <button mat-raised-button color="primary" (click)="saveBtnAction()">
+          Save
+        </button>
+      </div>
+    </ng-template>
+  </mat-action-row>
+</mat-expansion-panel>

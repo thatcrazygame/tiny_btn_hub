@@ -1,0 +1,10 @@
+<h1 class="mat-display-3">Groups</h1>
+<div class="list-grid">
+  <app-group-form *ngFor="let group of groupList"
+  [group]="group" [deviceList]="deviceList"
+  (onGroupDeleted)="removeFromGroupList($event)">
+  </app-group-form>
+</div>
+<button mat-fab color="primary" *ngIf="authenticated" class="new-btn" (click)="openDialog()">
+  <i class="material-icons">note_add</i>
+</button>

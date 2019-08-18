@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" class="mat-elevation-z10">
+  <button mat-button routerLink="./btns">Btns</button>
+  <button mat-button routerLink="./groups">Groups</button>
+  <button mat-button routerLink="./devices">Devices</button>
+  <button mat-button routerLink="./devices/types">Device Types</button>
+  <button mat-button routerLink="./actions">Actions</button>
+  <button mat-button routerLink="./commands">Commands</button>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space"></span>
+
+  <button mat-button (click)="signIn()" *ngIf="!authenticated">Sign In</button>
+  <button mat-button (click)="signOut()" *ngIf="authenticated">Sign Out</button>
+</mat-toolbar>
+
+<div class="view-container">
+  <router-outlet></router-outlet>
+</div>
