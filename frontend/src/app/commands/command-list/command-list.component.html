@@ -8,7 +8,11 @@
       <br />
       <mat-card-content>
         <mat-accordion class="command-args">
-          <mat-expansion-panel *ngFor="let arg of command.args; let i = index">
+            <app-command-arg-panel *ngFor="let arg of command.args; let i = index"
+            [command]="command" [arg]="arg" [index]="i"
+            (onArgDeleted)="removeFromArgList($event)">
+            </app-command-arg-panel>
+          <!-- <mat-expansion-panel *ngFor="let arg of command.args; let i = index">
             <mat-expansion-panel-header>
               <mat-panel-title *ngIf="arg.id; else newTitle">
                 {{arg.name}} < {{arg.type}} >
@@ -71,7 +75,7 @@
               </ng-template>
             </mat-action-row>
 
-          </mat-expansion-panel>
+          </mat-expansion-panel> -->
         </mat-accordion>
       </mat-card-content>
       <mat-card-actions>

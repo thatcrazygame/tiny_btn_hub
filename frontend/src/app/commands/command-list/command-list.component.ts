@@ -12,12 +12,7 @@ import { CommandsApiService } from '../commands-api.service';
 import { Command } from '../command.model'
 import { Arg } from '../arg.model'
 import { CommandDialogComponent } from '../command-dialog/command-dialog.component';
-import {
-	FormBuilder,
-	Validators,
-	FormGroup,
-	FormControl
-} from "@angular/forms";
+
 
 @Component({
 	selector: 'app-command-list',
@@ -29,8 +24,6 @@ export class CommandListComponent implements OnInit {
 	commandListSubs: Subscription;
 	commandList: Command[];
 	authenticated = false;
-
-	argForms: FormGroup[][];
 
 	constructor(
 		private api: CommandsApiService,
@@ -46,21 +39,6 @@ export class CommandListComponent implements OnInit {
 			.subscribe(res => {
                 let commands = res;
 				this.commandList = commands;
-
-                commands.forEach(function(c){
-                    tempForms[c.id] = [];
-                    c.args.forEach(function(a){
-                        let argForm = new FormGroup({
-                            id: new FormControl(a.id),
-                            command_id: new FormControl(a.command_id),
-                            name: new FormControl(a.name),
-                            type: new FormControl(a.type),
-                            required: new FormControl(a.required)
-                        });
-                        tempForms[c.id].push(argForm);
-                    });
-                });
-                this.argForms = tempForms;
 			}, console.error);
 	}
 
@@ -97,36 +75,18 @@ export class CommandListComponent implements OnInit {
 
     newArg(command_id) {
         let command = this.commandList.find(c => c.id === command_id);
-        let new_arg = new Arg("", "test", command_id, false);
-        let arg_form = new FormGroup({
-            id: new FormControl(),
-            command_id: new FormControl(command_id),
-            name: new FormControl(),
-            type: new FormControl(),
-            required: new FormControl(false)
-        });
-        this.argForms[command_id].push(arg_form);
+        let new_arg = new Arg("", "", command_id, false);
         command.args.push(new_arg);
     }
 
-    saveNewArg(command_id, index) {
-        let new_arg = this.argForms[command_id][index].value;
-        this.api
-            .saveCommandArg(command_id, new_arg)
-            .subscribe(() => this.refreshList(), console.error);
-    }
+	removeFromArgList(event: any) {
+		let command_id = event.command_id;
+		let arg_index = event.index;
+		let command = this.commandList.find(c => c.id === command_id);
 
-    cancelNewArg(command_id, argIdx) {
-        let command = this.commandList.find(c => c.id === command_id);
-        command.args.splice(argIdx, 1);
-        this.argForms[command_id].splice(argIdx, 1);
-    }
+		command.args.splice(arg_index, 1);
+	}
 
-    deleteArg(argId) {
-        this.api
-            .deleteCommandArg(argId)
-            .subscribe(() => this.refreshList(), console.error);
-    }
 
 	ngOnInit() {
 		this.refreshList();

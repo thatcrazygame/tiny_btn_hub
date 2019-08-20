@@ -1,0 +1,62 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title *ngIf="arg.id; else newTitle">
+      {{arg.name}} < {{arg.type}} >
+        <span class="spacer"></span>
+        <span *ngIf="arg.required">required</span>
+        <!-- <mat-checkbox [checked]="arg.required" [labelPosition]="before" [disabled]="true">
+          required
+        </mat-checkbox> -->
+    </mat-panel-title>
+    <ng-template #newTitle>
+      New
+    </ng-template>
+  </mat-expansion-panel-header>
+
+  <div *ngIf="argForm">
+    <div class="argForm" [formGroup]="argForm">
+
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="name" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="string">string</mat-option>
+          <mat-option value="integer">integer</mat-option>
+          <mat-option value="float">float</mat-option>
+          <mat-option value="boolean">boolean</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+
+      <mat-checkbox formControlName="required">Required</mat-checkbox>
+
+    </div>
+  </div>
+  <mat-action-row *ngIf="authenticated">
+    <div *ngIf="arg.id; else newArg">
+      <button mat-raised-button color="primary">
+        Update
+      </button>
+      <button mat-button color="warn" (click)="deleteArg()">
+        Delete
+      </button>
+
+    </div>
+
+    <ng-template #newArg>
+      <div>
+        <button mat-raised-button color="primary" (click)="saveNewArg()">
+          Save
+        </button>
+        <button mat-button color="warn" (click)="cancelNewArg()">
+          Cancel
+        </button>
+      </div>
+    </ng-template>
+  </mat-action-row>
+
+</mat-expansion-panel>
