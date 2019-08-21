@@ -29,6 +29,11 @@ export class BtnsApiService {
 			.catch(BtnsApiService._handleError);
 	}
 
+	getBtnCount(): Observable<any> {
+		return this.http
+			.get(`${API_URL}/btns/count`, this.httpOptions)
+			.catch(BtnsApiService._handleError);
+	}
 
 	saveBtn(btn: Btn): Observable<any> {
 		return this.http.post(`${API_URL}/btns`, btn, this.httpOptions);

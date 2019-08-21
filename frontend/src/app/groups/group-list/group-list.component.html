@@ -1,9 +1,40 @@
 <h1 class="mat-display-3">Groups</h1>
 <div class="list-grid">
-  <app-group-form *ngFor="let group of groupList"
-  [group]="group" [deviceList]="deviceList"
-  (onGroupDeleted)="removeFromGroupList($event)">
-  </app-group-form>
+
+  <ng-container *ngIf="!loading; else spinner">
+    <app-group-form *ngFor="let group of groupList" [group]="group" [deviceList]="deviceList" (onGroupDeleted)="removeFromGroupList($event)">
+    </app-group-form>
+  </ng-container>
+
+  <ng-template #spinner>
+    <mat-card *ngFor="let i of arrayOfSize(list_count)" class="mat-elevation-z5">
+      <mat-card-title class="flex-title">
+        <span>Loading...</span>
+        <span class="flex-spacer"></span>
+        <mat-chip-list aria-label="">
+          <mat-chip color="primary" selected>
+            Devices: ?
+          </mat-chip>
+        </mat-chip-list>
+      </mat-card-title>
+      <mat-divider></mat-divider>
+      <br />
+      <mat-card-content>
+        <mat-spinner></mat-spinner>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="accent">
+          Update Devices
+        </button>
+        <button mat-button color="warn">
+          Delete
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </ng-template>
+
 </div>
 <button mat-fab color="primary" *ngIf="authenticated" class="new-btn" (click)="openDialog()">
   <i class="material-icons">note_add</i>

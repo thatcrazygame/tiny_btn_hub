@@ -23,6 +23,9 @@ export class CommandListComponent implements OnInit {
 
 	commandListSubs: Subscription;
 	commandList: Command[];
+
+	list_count = 1;
+	loading = true;
 	authenticated = false;
 
 	constructor(
@@ -30,15 +33,29 @@ export class CommandListComponent implements OnInit {
 		private dialog: MatDialog
 	) { }
 
+	arrayOfSize(num: number) {
+		return Array(num);
+	}
+
 	refreshList() {
         const self = this;
         let tempForms = [];
+
+		this.api
+			.getCommandCount()
+			.subscribe(resp => {
+				if (resp.status == 200) {
+					this.list_count = resp.body.count;
+				}
+			}, console.error);
 
 		this.commandListSubs = this.api
 			.getCommands()
 			.subscribe(res => {
                 let commands = res;
 				this.commandList = commands;
+
+				this.loading = false;
 			}, console.error);
 	}
 

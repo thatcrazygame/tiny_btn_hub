@@ -1,9 +1,11 @@
 <h1 class="mat-display-3">Btns</h1>
 <div class="list-grid">
-  <div *ngFor="let btn of btnsList">
 
-    <mat-card class="example-card mat-elevation-z5">
-      <mat-card-title class="flex-title">
+  <ng-container *ngIf="!loading; else spinner">
+    <div *ngFor="let btn of btnsList">
+
+      <mat-card class="example-card mat-elevation-z5">
+        <mat-card-title class="flex-title">
           {{btn.name}}
           <span class="flex-spacer"></span>
           <mat-chip-list aria-label="">
@@ -11,26 +13,49 @@
             <mat-chip color="accent" selected>Count: {{btn.counter}}</mat-chip>
           </mat-chip-list>
 
+        </mat-card-title>
+        <mat-divider></mat-divider>
+        <br />
+        <mat-card-content>
+          <mat-accordion class="btn-actions">
+            <app-btn-action-panel *ngFor="let action of actionList" [btn]="btn" [action]="action" [commandList]="commandList" [groupList]="groupList">
+            </app-btn-action-panel>
+          </mat-accordion>
+          <br />
+
+          <button mat-raised-button color="accent">Btn</button>
+          <button mat-button color="warn" *ngIf="isAdmin()" (click)="deleteBtn(btn.id)">
+            Delete
+          </button>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #spinner>
+    <mat-card *ngFor="let i of arrayOfSize(list_count)">
+      <mat-card-title class="flex-title">
+        Loading...
+        <span class="flex-spacer"></span>
+        <mat-chip-list aria-label="">
+          <mat-chip color="primary" selected>ID: ?</mat-chip>
+          <mat-chip color="accent" selected>Count: ?</mat-chip>
+        </mat-chip-list>
+
       </mat-card-title>
       <mat-divider></mat-divider>
       <br />
       <mat-card-content>
-        <mat-accordion class="btn-actions">
-          <app-btn-action-panel *ngFor="let action of actionList"
-          [btn]="btn" [action]="action"
-          [commandList]="commandList" [groupList]="groupList">
-          </app-btn-action-panel>
-        </mat-accordion>
+        <mat-spinner></mat-spinner>
         <br />
 
         <button mat-raised-button color="accent">Btn</button>
-        <button mat-button color="warn" *ngIf="isAdmin()" (click)="deleteBtn(btn.id)">
-          Delete
-        </button>
+        <button mat-button color="warn">Delete</button>
 
       </mat-card-content>
     </mat-card>
-  </div>
+  </ng-template>
+
 </div>
 <button mat-fab color="primary" *ngIf="authenticated" class="new-btn" (click)="openDialog()">
   <i class="material-icons">note_add</i>

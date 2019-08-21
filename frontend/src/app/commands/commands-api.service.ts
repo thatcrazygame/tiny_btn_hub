@@ -29,6 +29,12 @@ export class CommandsApiService {
 			.catch(CommandsApiService._handleError);
 	}
 
+	getCommandCount(): Observable<any> {
+		return this.http
+			.get(`${API_URL}/commands/count`, this.httpOptions)
+			.catch(CommandsApiService._handleError);
+	}
+
 	saveCommand(command: Command): Observable<any> {
 		return this.http.post(`${API_URL}/commands`, command, this.httpOptions);
 	}

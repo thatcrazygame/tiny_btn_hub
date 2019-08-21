@@ -11,7 +11,8 @@ import {
 	MatSelectModule,
 	MatChipsModule,
 	MatGridListModule,
-	MatSnackBarModule
+	MatSnackBarModule,
+	MatProgressSpinnerModule
 } from '@angular/material';
 
 import { GroupsRoutingModule } from './groups-routing.module';
@@ -35,6 +36,7 @@ import { GroupFormComponent } from './group-form/group-form.component';
 	MatSelectModule,
 	MatGridListModule,
 	MatSnackBarModule,
+	MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule
   ],

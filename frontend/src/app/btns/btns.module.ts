@@ -13,7 +13,8 @@ import {
 	MatExpansionModule,
 	MatListModule,
 	MatCheckboxModule,
-	MatSnackBarModule
+	MatSnackBarModule,
+	MatProgressSpinnerModule
 } from '@angular/material';
 
 // import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -48,6 +49,7 @@ import { BtnActionPanelComponent } from './btn-action-panel/btn-action-panel.com
 		MatListModule,
 		MatCheckboxModule,
 		MatSnackBarModule,
+		MatProgressSpinnerModule,
 		FormsModule,
 		ReactiveFormsModule
 	],

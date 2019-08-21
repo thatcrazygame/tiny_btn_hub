@@ -54,6 +54,10 @@ button.new-btn {
     flex: 1 1 auto;
 }
 
+.mat-card-content .mat-progress-spinner {
+    margin: 0 auto;
+}
+
 @media (max-width: 1200px) {
   div.list-grid {
     grid-template-columns: 1fr;

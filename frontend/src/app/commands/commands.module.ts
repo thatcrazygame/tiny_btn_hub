@@ -12,7 +12,8 @@ import {
 	MatChipsModule,
 	MatExpansionModule,
 	MatCheckboxModule,
-	MatSnackBarModule
+	MatSnackBarModule,
+	MatProgressSpinnerModule
 } from '@angular/material';
 
 import { CommandsRoutingModule } from './commands-routing.module';
@@ -40,6 +41,7 @@ import { CommandArgPanelComponent } from './command-arg-panel/command-arg-panel.
 		MatExpansionModule,
 		MatCheckboxModule,
 		MatSnackBarModule,
+		MatProgressSpinnerModule,
 		FormsModule,
 		ReactiveFormsModule
 	],

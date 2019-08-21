@@ -27,6 +27,12 @@ export class GroupsApiService {
 			.catch(GroupsApiService._handleError);
 	}
 
+	getGroupCount(): Observable<any> {
+		return this.http
+			.get(`${API_URL}/groups/count`, this.httpOptions)
+			.catch(GroupsApiService._handleError);
+	}
+
 	saveGroup(group: Group): Observable<any> {
 		return this.http.post(`${API_URL}/groups`, group, this.httpOptions);
 	}

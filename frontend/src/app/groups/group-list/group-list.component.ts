@@ -34,6 +34,8 @@ export class GroupListComponent implements OnInit {
 	groupList: Group[];
 	deviceList: Device[];
 
+	list_count = 1;
+	loading = true;
 	authenticated = false;
 
 	constructor(
@@ -43,8 +45,21 @@ export class GroupListComponent implements OnInit {
 		private snack: MatSnackBar
 	) { }
 
+	arrayOfSize(num: number) {
+		return Array(num);
+	}
+
 	refreshAll() {
 		let self = this;
+
+		this.api
+			.getGroupCount()
+			.subscribe(resp => {
+				if (resp.status == 200) {
+					this.list_count = resp.body.count;
+				}
+			}, console.error);
+
 		forkJoin([
 			this.api.getGroups(),
 			this.devicesApi.getDevices()
@@ -55,6 +70,8 @@ export class GroupListComponent implements OnInit {
 
 				self.groupList = groups;
 				self.deviceList = devices;
+
+				this.loading = false;
 			}, console.error);
 	}
 

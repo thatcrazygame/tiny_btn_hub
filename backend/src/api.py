@@ -33,7 +33,15 @@ def get_btns():
 
     # serializing as JSON
     session.close()
-    return jsonify(btns.data), 200
+    return jsonify(btns), 200
+
+
+@app.route('/btns/count', endpoint='get_btn_count')
+def get_btn_count():
+    db = Session()
+    count = db.query(Btn).count()
+    db.close()
+    return {"count": count}, 200
 
 
 @app.route('/btns', methods=['POST'], endpoint='add_btn')
@@ -48,7 +56,7 @@ def add_btn():
     session.add(btn)
     session.commit()
 
-    new_btn = BtnSchema().dump(btn).data
+    new_btn = BtnSchema().dump(btn)
     session.close()
     return jsonify(new_btn), 201
 
@@ -77,7 +85,7 @@ def get_devices():
 
     # serializing as JSON
     session.close()
-    return jsonify(devices.data), 200
+    return jsonify(devices), 200
 
 
 @app.route('/devices', methods=['POST'], endpoint='add_device')
@@ -94,7 +102,7 @@ def add_device():
     try:
         session.add(device)
         session.commit()
-        new_device = DeviceSchema().dump(device).data
+        new_device = DeviceSchema().dump(device)
 
     except IntegrityError:
         return_code = 422
@@ -128,7 +136,7 @@ def get_device_types():
 
     # serializing as JSON
     session.close()
-    return jsonify(device_types.data), 200
+    return jsonify(device_types), 200
 
 
 @app.route('/devices/types', methods=['POST'], endpoint='add_device_type')
@@ -146,7 +154,7 @@ def add_device_type():
     session.add(device_type)
     session.commit()
 
-    new_device_type = DeviceTypeSchema().dump(device_type).data
+    new_device_type = DeviceTypeSchema().dump(device_type)
     session.close()
     return jsonify(new_device_type), 201
 
@@ -179,7 +187,7 @@ def get_actions():
 
     # serializing as JSON
     session.close()
-    return jsonify(actions.data), 200
+    return jsonify(actions), 200
 
 
 @app.route('/actions', methods=['POST'], endpoint='add_action')
@@ -196,7 +204,7 @@ def add_action():
     try:
         session.add(action)
         session.commit()
-        new_action = ActionSchema().dump(action).data
+        new_action = ActionSchema().dump(action)
 
     except IntegrityError:
         return_code = 422
@@ -230,7 +238,15 @@ def get_commands():
 
     # serializing as JSON
     session.close()
-    return jsonify(commands.data), 200
+    return jsonify(commands), 200
+
+
+@app.route('/commands/count', endpoint='get_command_count')
+def get_command_count():
+    db = Session()
+    count = db.query(Command).count()
+    db.close()
+    return {"count": count}, 200
 
 
 @app.route('/commands', methods=['POST'], endpoint='add_command')
@@ -247,7 +263,7 @@ def add_command():
     try:
         session.add(command)
         session.commit()
-        new_command = CommandSchema().dump(command).data
+        new_command = CommandSchema().dump(command)
 
     except IntegrityError:
         return_code = 422
@@ -295,7 +311,7 @@ def add_command_arg(commandId):
         )
         command.args.append(arg)
         session.commit()
-        new_arg = ArgSchema().dump(arg).data
+        new_arg = ArgSchema().dump(arg)
     else:
         return_code = 422
 
@@ -331,7 +347,15 @@ def get_groups():
 
     # serializing as JSON
     session.close()
-    return jsonify(groups.data), 200
+    return jsonify(groups), 200
+
+
+@app.route('/groups/count', endpoint='get_group_count')
+def get_group_count():
+    db = Session()
+    count = db.query(Group_d).count()
+    db.close()
+    return {"count": count}, 200
 
 
 @app.route('/groups', methods=['POST'], endpoint='add_group')
@@ -349,7 +373,7 @@ def add_group():
     try:
         session.add(group)
         session.commit()
-        new_group = GroupDSchema().dump(group).data
+        new_group = GroupDSchema().dump(group)
 
     except IntegrityError:
         return_code = 422
@@ -387,7 +411,7 @@ def get_btnactions():
 
     # serializing as JSON
     session.close()
-    return jsonify(btnactions.data), 200
+    return jsonify(btnactions), 200
 
 
 @app.route('/btnactions', methods=['POST'], endpoint='add_btnaction')
@@ -411,7 +435,7 @@ def add_btnaction():
         btnaction.update_arg_values(data["argvalues"])
         session.add(btnaction)
         session.commit()
-        new_btnaction = BtnActionSchema().dump(btnaction).data
+        new_btnaction = BtnActionSchema().dump(btnaction)
 
     except IntegrityError:
         return_code = 422
@@ -457,7 +481,7 @@ def update_btnaction(btnId, actionId):
     if btnaction is not None:
         btnaction.update(data["btnaction"])
         btnaction.first().update_arg_values(data["argvalues"])
-        updated_btnaction = BtnActionSchema().dump(btnaction.first()).data
+        updated_btnaction = BtnActionSchema().dump(btnaction.first())
         session.commit()
     else:
         response_code = 404
@@ -482,7 +506,7 @@ def update_group_devices(groupId):
     group.devices_updated = True
     group.devices[:] = devices
     session.commit()
-    updated_group = GroupDSchema().dump(group).data
+    updated_group = GroupDSchema().dump(group)
     session.close()
     return jsonify(updated_group), 200
 

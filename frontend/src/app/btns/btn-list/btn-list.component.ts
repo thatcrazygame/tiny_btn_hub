@@ -9,7 +9,8 @@ import {
 	MatDialogConfig,
 	MatExpansionModule,
 	MatSelectModule,
-	MatSnackBar
+	MatSnackBar,
+	// MatProgressSpinner
 } from "@angular/material";
 import {
 	FormBuilder,
@@ -52,8 +53,8 @@ export class BtnListComponent implements OnInit {
 	// groupListSubs: Subscription;
 	groupList: Group[];
 
-
-
+	list_count = 1;
+	loading = true;
 	authenticated = false;
 
 	constructor(
@@ -83,8 +84,20 @@ export class BtnListComponent implements OnInit {
 		return roles.includes('admin');
 	}
 
+	arrayOfSize(num: number) {
+		return Array(num);
+	}
+
 	refreshAll() {
 		const self = this;
+
+		this.api
+			.getBtnCount()
+			.subscribe(resp => {
+				if (resp.status == 200) {
+					this.list_count = resp.body.count;
+				}
+			}, console.error);
 
 		forkJoin([
 			this.api.getBtns(),
@@ -102,6 +115,8 @@ export class BtnListComponent implements OnInit {
 				self.actionList = actions;
 				self.commandList = commands;
 				self.groupList = groups;
+
+				this.loading = false;
 
 				Auth0.subscribe((authenticated) => {
 					self.authenticated = authenticated;
