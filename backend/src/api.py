@@ -50,7 +50,7 @@ def add_btn():
     posted_btn = BtnSchema(only=('id', 'name', 'counter'))\
         .load(request.get_json())
 
-    btn = Btn(**posted_btn.data, created_by="HTTP post request")
+    btn = Btn(**posted_btn, created_by="HTTP post request")
 
     session = Session()
     session.add(btn)
@@ -94,7 +94,7 @@ def add_device():
     posted_device = DeviceSchema(only=('name', 'device_type_id'))\
         .load(request.get_json())
 
-    device = Device(**posted_device.data, created_by="HTTP post request")
+    device = Device(**posted_device, created_by="HTTP post request")
 
     session = Session()
     return_code = 201
@@ -146,7 +146,7 @@ def add_device_type():
         .load(request.get_json())
 
     device_type = DeviceType(
-        **posted_device_type.data,
+        **posted_device_type,
         created_by="HTTP post request"
     )
 
@@ -196,7 +196,7 @@ def add_action():
     posted_action = ActionSchema(only=('name',))\
         .load(request.get_json())
 
-    action = Action(**posted_action.data, created_by="HTTP post request")
+    action = Action(**posted_action, created_by="HTTP post request")
 
     session = Session()
     return_code = 201
@@ -255,7 +255,7 @@ def add_command():
     posted_command = CommandSchema(only=('name',))\
         .load(request.get_json())
 
-    command = Command(**posted_command.data, created_by="HTTP post request")
+    command = Command(**posted_command, created_by="HTTP post request")
 
     session = Session()
     return_code = 201
@@ -305,7 +305,7 @@ def add_command_arg(commandId):
             .load(request.get_json())
 
         arg = Arg(
-            **posted_arg.data,
+            **posted_arg,
             command_id=command.id,
             created_by="HTTP post request"
         )
@@ -364,7 +364,7 @@ def add_group():
     posted_group = GroupDSchema(only=('name',))\
         .load(request.get_json())
 
-    group = Group_d(**posted_group.data, created_by="HTTP post request")
+    group = Group_d(**posted_group, created_by="HTTP post request")
 
     session = Session()
     return_code = 201
@@ -426,7 +426,7 @@ def add_btnaction():
         'group_id'
     )).load(data["btnaction"])
 
-    btnaction = BtnAction(**posted_btnaction.data)
+    btnaction = BtnAction(**posted_btnaction)
 
     session = Session()
     return_code = 201
